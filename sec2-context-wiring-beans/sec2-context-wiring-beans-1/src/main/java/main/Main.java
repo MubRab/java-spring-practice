@@ -15,6 +15,7 @@ public class Main {
 		Person person = beanContext.getBean(Person.class);
 		System.out.println(person.toString());
 
+		
 	}
 
 }
