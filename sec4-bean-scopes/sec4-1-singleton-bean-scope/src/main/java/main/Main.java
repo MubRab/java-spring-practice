@@ -36,8 +36,5 @@ public class Main {
         System.out.println("Calling getBean() to get the reference to commentService2 object in the Spring context");
         CommentService cs2 = springConfig.getBean("commentService2", CommentService.class);
         System.out.println();
-
-
-//        System.out.println(cs1 == cs2);
     }
 }
