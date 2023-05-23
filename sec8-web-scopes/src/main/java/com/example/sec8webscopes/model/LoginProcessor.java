@@ -1,5 +1,7 @@
 package com.example.sec8webscopes.model;
 
+import com.example.sec8webscopes.services.LoggedUserManagementService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -10,6 +12,8 @@ import org.springframework.web.context.annotation.RequestScope;
 @Component
 @RequestScope
 public class LoginProcessor {
+    private final LoggedUserManagementService loggedUserManagementService;
+
     private String username;
     private String password;
 
@@ -29,7 +33,17 @@ public class LoginProcessor {
         this.password = password;
     }
 
+    @Autowired
+    public LoginProcessor(LoggedUserManagementService loggedUserManagementService) {
+        this.loggedUserManagementService = loggedUserManagementService;
+    }
+
     public boolean login() {
-        return ("user1".equals(this.username) && "pwd".equals(this.password));
+        if ("user1".equals(this.username) && "pwd".equals(this.password)) {
+            loggedUserManagementService.setUsername(this.username);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

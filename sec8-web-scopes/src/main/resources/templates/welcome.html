@@ -5,6 +5,7 @@
     <title>Welcome</title>
 </head>
 <body>
-    <p th:text="${message}"></p>
+    <h1>Welcome, <span th:text="${username}"></span></h1>
+    <a href="/welcome?logout">Log out</a>
 </body>
 </html>
