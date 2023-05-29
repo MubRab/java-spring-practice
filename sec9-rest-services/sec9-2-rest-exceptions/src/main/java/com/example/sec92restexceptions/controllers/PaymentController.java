@@ -6,14 +6,12 @@ import com.example.sec92restexceptions.model.PaymentDetails;
 import com.example.sec92restexceptions.services.PaymentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @RestController
@@ -34,11 +32,13 @@ public class PaymentController {
     }
 
     @PostMapping("/receive")
-    public ResponseEntity<?> receivePayment(@RequestBody PaymentDetails paymentDetails) {
+    public ResponseEntity<?> receivePayment(@RequestHeader String reqID, @RequestBody PaymentDetails paymentDetails) {
         Currency rands = Currency.getInstance(new Locale("en", "ZA"));
-        logger.info("Received amount: " + NumberFormat.getCurrencyInstance().format(paymentDetails.getAmount()));
+        logger.info("Received request with ID: " + reqID + ". Received amount: " + NumberFormat.getCurrencyInstance().format(paymentDetails.getAmount()));
+        paymentDetails.setId(UUID.randomUUID().toString());
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
+                .header("reqID", reqID)
                 .body(paymentDetails);
     }
 }
