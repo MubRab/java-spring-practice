@@ -35,7 +35,7 @@ public class PaymentController {
     public ResponseEntity<?> receivePayment(@RequestHeader String reqID, @RequestBody PaymentDetails paymentDetails) {
         Currency rands = Currency.getInstance(new Locale("en", "ZA"));
         logger.info("Received request with ID: " + reqID + ". Received amount: " + NumberFormat.getCurrencyInstance().format(paymentDetails.getAmount()));
-        paymentDetails.setId(UUID.randomUUID().toString());
+        paymentDetails.setId(reqID);
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .header("reqID", reqID)
